@@ -244,7 +244,9 @@ function HeroIllustration() {
     }
 
     function onMove(e: MouseEvent) {
-      const rect = scene.getBoundingClientRect()
+      const el = sceneRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
       const nx = (e.clientX - rect.left) / rect.width  - 0.5  // -0.5 to 0.5
       const ny = (e.clientY - rect.top)  / rect.height - 0.5
       xQ?.(nx * 14)
