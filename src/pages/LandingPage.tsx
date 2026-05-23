@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import gsap from 'gsap'
 import {
   ArrowRight, Check, Sparkles, Star, Gamepad2,
   Video, BookOpen, Pencil, Play,
@@ -159,33 +160,144 @@ function ParentMiniReport() {
 
 /* ── Hero illustration ── */
 function HeroIllustration() {
+  const sceneRef = useRef<HTMLDivElement>(null)
+
+  /* ── Ambient GSAP animations + mouse parallax ── */
+  useEffect(() => {
+    const scene = sceneRef.current
+    if (!scene) return
+
+    const ctx = gsap.context(() => {
+      /* Start ambient animations slightly after Framer Motion entry animations finish */
+      const tl = gsap.timeline({ delay: 1.3 })
+
+      /* 1. Rust blob — slow organic morph */
+      tl.to('.hero-blob', {
+        keyframes: [
+          { borderRadius: '50% 50% 60% 40% / 55% 45% 55% 45%', duration: 6 },
+          { borderRadius: '55% 45% 40% 60% / 45% 55% 45% 55%', duration: 6 },
+          { borderRadius: '60% 40% 55% 45% / 50% 60% 40% 50%', duration: 6 },
+        ],
+        ease: 'sine.inOut',
+        repeat: -1,
+      }, 0)
+
+      /* 2. Sage accent circle — gentle pulse */
+      tl.to('.hero-accent', {
+        scale: 1.08,
+        duration: 2.6,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        transformOrigin: 'center',
+      }, 0)
+
+      /* 3. Sparkles — slow rotate + twinkle (scale loop offset) */
+      tl.to('.hero-spark', {
+        rotation: 360,
+        duration: 12,
+        ease: 'none',
+        repeat: -1,
+        transformOrigin: 'center',
+      }, 0)
+      tl.to('.hero-spark-1', {
+        scale: 1.35, opacity: 0.6,
+        duration: 1.6, ease: 'sine.inOut', repeat: -1, yoyo: true,
+      }, 0)
+      tl.to('.hero-spark-2', {
+        scale: 1.3, opacity: 0.5,
+        duration: 2.0, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 0.4,
+      }, 0)
+
+      /* 4. Chips — gentle float offset from mascot bob */
+      tl.to('.hero-chip-math', {
+        y: -8,
+        duration: 3.2,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+      }, 0)
+      tl.to('.hero-chip-streak', {
+        y: 8,
+        duration: 2.7,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        delay: 0.5,
+      }, 0)
+    }, sceneRef)
+
+    /* Mouse parallax — subtle scene shift toward cursor */
+    let xQ: gsap.QuickToFunc | null = null
+    let yQ: gsap.QuickToFunc | null = null
+    let bxQ: gsap.QuickToFunc | null = null
+    let byQ: gsap.QuickToFunc | null = null
+    const mascot = scene.querySelector<HTMLElement>('.hero-mascot-wrap')
+    const blob   = scene.querySelector<HTMLElement>('.hero-blob')
+    if (mascot) {
+      xQ = gsap.quickTo(mascot, 'x', { duration: 0.7, ease: 'power2.out' })
+      yQ = gsap.quickTo(mascot, 'y', { duration: 0.7, ease: 'power2.out' })
+    }
+    if (blob) {
+      bxQ = gsap.quickTo(blob, 'x', { duration: 1.0, ease: 'power2.out' })
+      byQ = gsap.quickTo(blob, 'y', { duration: 1.0, ease: 'power2.out' })
+    }
+
+    function onMove(e: MouseEvent) {
+      const rect = scene.getBoundingClientRect()
+      const nx = (e.clientX - rect.left) / rect.width  - 0.5  // -0.5 to 0.5
+      const ny = (e.clientY - rect.top)  / rect.height - 0.5
+      xQ?.(nx * 14)
+      yQ?.(ny * 14)
+      bxQ?.(nx * -8)
+      byQ?.(ny * -8)
+    }
+    function onLeave() {
+      xQ?.(0); yQ?.(0); bxQ?.(0); byQ?.(0)
+    }
+    scene.addEventListener('mousemove', onMove)
+    scene.addEventListener('mouseleave', onLeave)
+
+    return () => {
+      ctx.revert()
+      scene.removeEventListener('mousemove', onMove)
+      scene.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
+
   return (
-    <div style={{ position: 'relative', aspectRatio: '1/1', maxWidth: 520, width: '100%', marginLeft: 'auto', minWidth: 0 }}>
+    <div ref={sceneRef}
+      style={{ position: 'relative', aspectRatio: '1/1', maxWidth: 520, width: '100%', marginLeft: 'auto', minWidth: 0 }}>
       {/* Organic rust blob background */}
-      <div style={{
+      <div className="hero-blob" style={{
         position: 'absolute', inset: '8% 0 0 6%',
         background: 'var(--rust-tint)',
         borderRadius: '60% 40% 55% 45% / 50% 60% 40% 50%',
         border: '1px solid var(--rust-soft)',
+        willChange: 'border-radius, transform',
       }} />
       {/* Sage circle accent */}
-      <div style={{
+      <div className="hero-accent" style={{
         position: 'absolute', top: '8%', right: '8%',
         width: '30%', aspectRatio: '1',
         background: 'var(--sage-soft)',
         border: '1px solid #C7D6B0',
         borderRadius: '50%',
+        willChange: 'transform',
       }} />
-      {/* Mascot centered + bobbing */}
-      <div className="yct-bob" style={{ position: 'absolute', inset: '20% 18% 16% 18%', display: 'grid', placeItems: 'center' }}>
-        <YungMascot size={260} mood="happy" />
+      {/* Mascot wrapper — GSAP parallax target, child keeps CSS bob */}
+      <div className="hero-mascot-wrap"
+        style={{ position: 'absolute', inset: '20% 18% 16% 18%', willChange: 'transform' }}>
+        <div className="yct-bob" style={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>
+          <YungMascot size={260} mood="happy" />
+        </div>
       </div>
 
       {/* Floating chip — math progress */}
       <motion.div
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8, duration: 0.5 }}
-        className="yct-lift yct-pop"
-        style={{ position: 'absolute', top: '10%', left: '2%', padding: '10px 14px', display: 'flex', gap: 10, alignItems: 'center', maxWidth: 220, background: 'var(--surface)' }}>
+        className="yct-lift yct-pop hero-chip-math"
+        style={{ position: 'absolute', top: '10%', left: '2%', padding: '10px 14px', display: 'flex', gap: 10, alignItems: 'center', maxWidth: 220, background: 'var(--surface)', willChange: 'transform' }}>
         <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--sage-soft)', display: 'grid', placeItems: 'center', color: '#3F5D33', fontFamily: 'var(--yct-display)', fontSize: 'var(--text-md)', flexShrink: 0 }}>+9</div>
         <div>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-600)' }}>คณิตศาสตร์</div>
@@ -196,8 +308,8 @@ function HeroIllustration() {
       {/* Floating chip — streak */}
       <motion.div
         initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.0, duration: 0.5 }}
-        className="yct-lift yct-pop"
-        style={{ position: 'absolute', bottom: '10%', right: '2%', padding: '10px 14px', display: 'flex', gap: 10, alignItems: 'center', background: 'var(--surface)' }}>
+        className="yct-lift yct-pop hero-chip-streak"
+        style={{ position: 'absolute', bottom: '10%', right: '2%', padding: '10px 14px', display: 'flex', gap: 10, alignItems: 'center', background: 'var(--surface)', willChange: 'transform' }}>
         <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--mustard-soft)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
           <Star size={18} color="var(--mustard)" />
         </div>
@@ -208,8 +320,10 @@ function HeroIllustration() {
       </motion.div>
 
       {/* Sparkle accents */}
-      <Sparkles size={20} color="var(--rust)" style={{ position: 'absolute', top: '35%', right: '10%' }} />
-      <Sparkles size={14} color="var(--mustard)" style={{ position: 'absolute', bottom: '26%', left: '12%' }} />
+      <Sparkles className="hero-spark hero-spark-1" size={20} color="var(--rust)"
+        style={{ position: 'absolute', top: '35%', right: '10%', willChange: 'transform, opacity' }} />
+      <Sparkles className="hero-spark hero-spark-2" size={14} color="var(--mustard)"
+        style={{ position: 'absolute', bottom: '26%', left: '12%', willChange: 'transform, opacity' }} />
     </div>
   )
 }
