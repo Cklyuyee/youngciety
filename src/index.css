@@ -110,8 +110,8 @@
   --warn: #B97A1B;
   --err:  #B8493C;
 
-  /* Fonts */
-  --yct-display: "Source Serif 4", "Noto Serif Thai", ui-serif, Georgia, serif;
+  /* Fonts — Pridi handles both Thai and Latin in display headings */
+  --yct-display: "Pridi", "Source Serif 4", ui-serif, Georgia, serif;
   --yct-sans:    "Noto Sans Thai", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
   --yct-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
