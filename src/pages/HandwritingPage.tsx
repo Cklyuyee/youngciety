@@ -747,7 +747,7 @@ export default function HandwritingPage({ ctx: _ctx }: { ctx: AppCtx }) {
       <div className="between mb-4">
         <div>
           <span className="chip chip-mustard">ภาษาไทย · ฝึกคัดอักษร</span>
-          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '10px 0 4px', lineHeight: 1.15 }}>
+          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '10px 0 4px', lineHeight: 1.3 }}>
             ห้องเรียนคัดลายมือ <em style={{ color: 'var(--rust)', fontStyle: 'italic' }}>กับน้องยัง</em>
           </h1>
           <p className="muted" style={{ margin: 0, maxWidth: 560 }}>

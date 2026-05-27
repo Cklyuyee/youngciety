@@ -291,7 +291,7 @@ function HeroIllustration() {
       <div className="hero-mascot-wrap"
         style={{ position: 'absolute', inset: '20% 18% 16% 18%', willChange: 'transform' }}>
         <div className="yct-bob" style={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>
-          <YungMascot size={260} mood="happy" />
+          <YungMascot size={260} mood="happy" interactive />
         </div>
       </div>
 
@@ -384,8 +384,8 @@ export default function LandingPage({ navigate }: LandingPageProps = {}) {
           ].map(l => (
             <a key={l.label} href={l.href} className="yct-nav-link">{l.label}</a>
           ))}
-          <button className="yct-btn yct-btn-ghost yct-btn-sm" onClick={() => go('home')}>เข้าใช้งาน</button>
-          <button className="yct-btn yct-btn-primary yct-btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }} onClick={() => go('home')}>
+          <button className="yct-btn yct-btn-ghost yct-btn-sm" onClick={() => go('login')}>เข้าใช้งาน</button>
+          <button className="yct-btn yct-btn-primary yct-btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }} onClick={() => go('signup')}>
             เริ่มเรียนฟรี <ArrowRight size={14} />
           </button>
         </nav>
@@ -407,7 +407,7 @@ export default function LandingPage({ navigate }: LandingPageProps = {}) {
                 fontSize: 'clamp(36px, 4.4vw, 56px)',
                 fontWeight: 360,
                 letterSpacing: '-0.02em',
-                lineHeight: 1.1,
+                lineHeight: 1.3,
                 margin: 0,
                 color: 'var(--ink-900)',
                 wordBreak: 'keep-all',
@@ -425,7 +425,7 @@ export default function LandingPage({ navigate }: LandingPageProps = {}) {
             </motion.p>
 
             <motion.div variants={fadeUp} style={{ display: 'flex', gap: 12, marginTop: 32 }}>
-              <button className="yct-btn yct-btn-primary yct-btn-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }} onClick={() => go('home')}>
+              <button className="yct-btn yct-btn-primary yct-btn-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }} onClick={() => go('signup')}>
                 เริ่มต้นฟรี — ไม่ต้องใช้บัตร <ArrowRight size={16} />
               </button>
               <button className="yct-btn yct-btn-ghost yct-btn-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }} onClick={() => go('brand')}>
@@ -467,7 +467,7 @@ export default function LandingPage({ navigate }: LandingPageProps = {}) {
           style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60, marginBottom: 48 }}>
           <motion.div variants={fadeUp}>
             <div className="yct-kicker" style={{ color: 'var(--rust)', marginBottom: 8 }}>วิชาเรียน</div>
-            <h2 style={{ fontFamily: 'var(--yct-display)', fontSize: 'var(--text-3xl)', fontWeight: 360, letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0, color: 'var(--ink-900)' }}>
+            <h2 style={{ fontFamily: 'var(--yct-display)', fontSize: 'var(--text-3xl)', fontWeight: 360, letterSpacing: '-0.02em', lineHeight: 1.3, margin: 0, color: 'var(--ink-900)' }}>
               ครอบคลุมทุกวิชาสำคัญ<br />ในวัยกำลังเติบโต
             </h2>
           </motion.div>
@@ -505,11 +505,11 @@ export default function LandingPage({ navigate }: LandingPageProps = {}) {
         <div className="yct-kicker" style={{ color: 'var(--rust)', textAlign: 'center', marginBottom: 8 }}>วิธีเรียนที่ Youngciety</div>
         <h2 style={{
           fontFamily: 'var(--yct-display)', fontSize: 'var(--text-3xl)', fontWeight: 360,
-          letterSpacing: '-0.02em', lineHeight: 1.1,
+          letterSpacing: '-0.02em', lineHeight: 1.3,
           textAlign: 'center', maxWidth: 720, margin: '8px auto 56px',
           color: 'var(--ink-900)',
         }}>
-          สี่ทาง สำหรับการเรียนรู้<br />ที่ <em style={{ color: 'var(--rust)', fontStyle: 'italic' }}>ติดตัวไปทั้งชีวิต</em>
+          เรียนรู้ได้ทุกจังหวะ<br /><em style={{ color: 'var(--rust)', fontStyle: 'italic' }}>ไม่มีขีดจำกัด</em>
         </h2>
 
         <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }}
@@ -534,7 +534,7 @@ export default function LandingPage({ navigate }: LandingPageProps = {}) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60, alignItems: 'center' }}>
             <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }}>
               <motion.div variants={fadeUp} className="yct-kicker" style={{ color: 'var(--rust)', marginBottom: 8 }}>ลองดูเลย</motion.div>
-              <motion.h2 variants={fadeUp} style={{ fontFamily: 'var(--yct-display)', fontSize: 'var(--text-3xl)', fontWeight: 360, letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 16px', color: 'var(--ink-900)' }}>
+              <motion.h2 variants={fadeUp} style={{ fontFamily: 'var(--yct-display)', fontSize: 'var(--text-3xl)', fontWeight: 360, letterSpacing: '-0.02em', lineHeight: 1.3, margin: '0 0 16px', color: 'var(--ink-900)' }}>
                 เรียนรู้ที่ <em style={{ color: 'var(--rust)', fontStyle: 'italic' }}>วัดผลได้</em><br />ตั้งแต่วันแรก
               </motion.h2>
               <motion.p variants={fadeUp} style={{ color: 'var(--ink-700)', fontSize: 'var(--text-md)', lineHeight: 1.65 }}>
@@ -574,7 +574,7 @@ export default function LandingPage({ navigate }: LandingPageProps = {}) {
         <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 60, alignItems: 'center' }}>
           <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true }}>
             <motion.div variants={fadeUp} className="yct-kicker" style={{ color: 'var(--rust)', marginBottom: 8 }}>สำหรับผู้ปกครอง</motion.div>
-            <motion.h2 variants={fadeUp} style={{ fontFamily: 'var(--yct-display)', fontSize: 'var(--text-3xl)', fontWeight: 360, letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 16px', color: 'var(--ink-900)' }}>
+            <motion.h2 variants={fadeUp} style={{ fontFamily: 'var(--yct-display)', fontSize: 'var(--text-3xl)', fontWeight: 360, letterSpacing: '-0.02em', lineHeight: 1.3, margin: '0 0 16px', color: 'var(--ink-900)' }}>
               เห็นพัฒนาการของลูก<br />ทุกสัปดาห์ ไม่ต้องเดา
             </motion.h2>
             <motion.p variants={fadeUp} style={{ color: 'var(--ink-700)', fontSize: 'var(--text-md)', lineHeight: 1.65, maxWidth: 540 }}>

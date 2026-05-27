@@ -306,7 +306,7 @@ export default function JourneyPage({ ctx }: { ctx: AppCtx }) {
       <div className="between mb-5">
         <div>
           <div className="kicker">ด่านเรียนรู้</div>
-          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '8px 0 14px', lineHeight: 1.15 }}>
+          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '8px 0 14px', lineHeight: 1.3 }}>
             เดินทางทีละด่าน <em style={{ color: 'var(--rust)', fontStyle: 'italic' }}>ปลดล็อคไปเรื่อยๆ</em>
           </h1>
           <p className="muted" style={{ margin: 0, maxWidth: 540 }}>

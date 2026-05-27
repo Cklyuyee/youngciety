@@ -1,11 +1,30 @@
 import { useState, useCallback, useEffect, lazy, Suspense } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import type { RouteId, AppCtx, AppUser, SubjectProgress } from '@/types/app'
 import LandingPage from '@/pages/LandingPage'
 import AppShell from '@/components/AppShell'
 
+/* Page transition variants */
+const fullPage = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit:    { opacity: 0 },
+  transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+}
+const innerPage = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  exit:    { opacity: 0, y: -12 },
+  transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+}
+
+const LoginPage    = lazy(() => import('@/pages/LoginPage'))
+const SignupPage   = lazy(() => import('@/pages/SignupPage'))
+
 /* ── Hash-based routing helpers ── */
 const VALID_ROUTES: RouteId[] = [
-  'landing', 'home', 'journey', 'subjects', 'library', 'worksheets',
+  'landing', 'login', 'signup',
+  'home', 'journey', 'subjects', 'library', 'worksheets',
   'math', 'coding', 'handwriting', 'article', 'parent', 'brand',
 ]
 function getRouteFromHash(): RouteId {
@@ -103,21 +122,52 @@ export default function App() {
 
   const ctx: AppCtx = { user, setUser, progress, bumpProgress, navigate, route }
 
-  if (route === 'landing') {
-    return <LandingPage navigate={(id: string) => navigate(id as RouteId)} />
-  }
+  const navWrap = (id: string) => navigate(id as RouteId)
+
+  /* Outer transition uses one of 4 keys: landing / login / signup / app.
+     App routes (home, journey, etc.) share key="app" so AppShell doesn't
+     unmount when switching between them — only its inner page does. */
+  const isAuth   = route === 'login' || route === 'signup'
+  const isShell  = route !== 'landing' && !isAuth
+  const outerKey = isShell ? 'app' : route
 
   const PageComponent = PAGES[route]
 
   return (
-    <AppShell route={route} navigate={navigate} ctx={ctx}>
-      <Suspense fallback={<PageFallback />}>
-        {PageComponent
-          ? <PageComponent ctx={ctx} />
-          : <ComingSoon label={route} />
-        }
-      </Suspense>
-    </AppShell>
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div key={outerKey} {...fullPage}>
+
+        {route === 'landing' && <LandingPage navigate={navWrap} />}
+
+        {route === 'login' && (
+          <Suspense fallback={<PageFallback />}>
+            <LoginPage navigate={navWrap} />
+          </Suspense>
+        )}
+
+        {route === 'signup' && (
+          <Suspense fallback={<PageFallback />}>
+            <SignupPage navigate={navWrap} />
+          </Suspense>
+        )}
+
+        {isShell && (
+          <AppShell route={route} navigate={navigate} ctx={ctx}>
+            <Suspense fallback={<PageFallback />}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div key={route} {...innerPage}>
+                  {PageComponent
+                    ? <PageComponent ctx={ctx} />
+                    : <ComingSoon label={route} />
+                  }
+                </motion.div>
+              </AnimatePresence>
+            </Suspense>
+          </AppShell>
+        )}
+
+      </motion.div>
+    </AnimatePresence>
   )
 }
 

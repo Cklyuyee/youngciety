@@ -1,7 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 
 export type RouteId =
-  | 'landing' | 'home' | 'journey' | 'subjects' | 'library'
+  | 'landing' | 'login' | 'signup'
+  | 'home' | 'journey' | 'subjects' | 'library'
   | 'worksheets' | 'math' | 'coding' | 'handwriting'
   | 'article' | 'parent' | 'brand'
 

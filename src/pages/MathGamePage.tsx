@@ -85,7 +85,7 @@ function LevelSelect({ levels, stars, onPick }: { levels: Level[]; stars: Record
       <div className="between mb-5">
         <div>
           <span className="chip chip-sage">คณิตศาสตร์ · เกม</span>
-          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '12px 0 6px', lineHeight: 1.15 }}>
+          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '12px 0 6px', lineHeight: 1.3 }}>
             จับคู่ผลรวม <em style={{ color: 'var(--rust)', fontStyle: 'italic', whiteSpace: 'nowrap' }}>Number Pairs</em>
           </h1>
           <p className="muted" style={{ margin: 0, maxWidth: 560 }}>
@@ -131,7 +131,7 @@ function LevelSelect({ levels, stars, onPick }: { levels: Level[]; stars: Record
                   <div className="kicker" style={{ color: locked ? 'var(--ink-500)' : earned === 3 ? '#75561A' : '#3F5D33' }}>
                     Lv {lv.id}
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', color: 'var(--ink-900)', lineHeight: 1.1, marginTop: 4 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', color: 'var(--ink-900)', lineHeight: 1.3, marginTop: 4 }}>
                     {lv.title}
                   </div>
                 </div>
@@ -180,7 +180,7 @@ function LevelIntro({ level, stars, onStart, onBack }: { level: Level; stars: nu
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 60, alignItems: 'center', padding: '20px 0' }}>
         <div>
           <span className="chip chip-sage">Lv {level.id} · คณิตศาสตร์</span>
-          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '14px 0 6px', lineHeight: 1.15 }}>
+          <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '14px 0 6px', lineHeight: 1.3 }}>
             {level.title}
           </h1>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-700)' }}>{level.sub}</p>
@@ -378,7 +378,7 @@ function Complete({ result, level, hasNext, onReplay, onNext, onSelect, onHome }
       <div className="kicker mt-4" style={{ color: passed ? 'var(--ok)' : 'var(--ink-600)' }}>
         {passed ? `ผ่านด่าน ${level.id}!` : 'ใกล้แล้วนะ'}
       </div>
-      <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '10px 0 0', lineHeight: 1.15 }}>
+      <h1 className="display" style={{ fontSize: 'var(--text-3xl)', margin: '10px 0 0', lineHeight: 1.3 }}>
         {passed ? <>{`เก่งมาก! `}<em style={{ color: 'var(--rust)', fontStyle: 'italic' }}>{level.title}</em></> : 'ลองอีกครั้ง'}
       </h1>
 

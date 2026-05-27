@@ -130,7 +130,7 @@ function LevelSelect({ levels, stars, onPick }: { levels: Level[]; stars: Record
       <div className="between mb-5">
         <div>
           <span className="chip chip-plum">Coding · เกม</span>
-          <h1 className="display" style={{ fontSize:'var(--text-3xl)', margin:'12px 0 6px', lineHeight:1.15 }}>
+          <h1 className="display" style={{ fontSize:'var(--text-3xl)', margin:'12px 0 6px', lineHeight:1.3 }}>
             พาน้องไข่ไปกินดาว <em style={{ color:'var(--rust)', fontStyle:'italic' }}>ทีละด่าน</em>
           </h1>
           <p className="muted" style={{ margin:0, maxWidth:560 }}>
@@ -351,7 +351,7 @@ function Complete({ result, level, hasNext, onReplay, onNext, onSelect, onHome }
     <div style={{ maxWidth:560, margin:'40px auto', textAlign:'center' }}>
       <YungMascot size={140} mood="cheer" className="bob" />
       <div className="kicker mt-4" style={{ color:'var(--ok)' }}>ผ่านด่าน {level.id}!</div>
-      <h1 className="display" style={{ fontSize:'var(--text-3xl)', margin:'10px 0 0', lineHeight:1.15 }}>
+      <h1 className="display" style={{ fontSize:'var(--text-3xl)', margin:'10px 0 0', lineHeight:1.3 }}>
         เก่งมาก! <em style={{ color:'var(--rust)', fontStyle:'italic' }}>{level.title}</em>
       </h1>
       <div className="row pop" style={{ justifyContent:'center', gap:8, marginTop:26 }}>

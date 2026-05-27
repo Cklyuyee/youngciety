@@ -115,12 +115,12 @@
   --yct-sans:    "Noto Sans Thai", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
   --yct-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* Type scale */
-  --text-xs:   11px;
-  --text-sm:   13px;
-  --text-base: 15px;
-  --text-md:   17px;
-  --text-lg:   20px;
+  /* Type scale — sized for Thai readability (12/14/16 minimum baseline) */
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 16px;
+  --text-md:   18px;
+  --text-lg:   22px;
   --text-xl:   26px;
   --text-2xl:  34px;
   --text-3xl:  46px;
@@ -148,12 +148,49 @@
 [data-age="little"] { --scale: 1.15; --r-mode: 1.6; }
 [data-age="big"]    { --scale: 1;    --r-mode: 1; }
 
+/* Auth pages — 2-column layout that collapses on narrow screens */
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background: var(--cream-100);
+}
+@media (max-width: 900px) {
+  .auth-layout { grid-template-columns: 1fr; }
+  .auth-decoration { display: none !important; }
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border: 1.5px solid var(--rule);
+  border-radius: var(--r-md);
+  font-size: var(--text-base);
+  font-family: var(--yct-sans);
+  color: var(--ink-900);
+  background: var(--surface);
+  outline: none;
+  transition: border 200ms ease, box-shadow 200ms ease;
+}
+.auth-input:hover  { border-color: var(--ink-500); }
+.auth-input:focus  { border-color: var(--rust); box-shadow: 0 0 0 3px var(--rust-soft); }
+.auth-input::placeholder { color: var(--ink-500); }
+
+/* Interactive mascot — hide focus ring on mouse click,
+   show soft rust ring only when keyboard-focused */
+svg[role="button"]:focus { outline: none; }
+svg[role="button"]:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 6px;
+  border-radius: 50%;
+}
+
 /* ── Display type ── */
 .yct-display {
   font-family: var(--yct-display);
   font-weight: 380;
   letter-spacing: -0.02em;
-  line-height: 1.05;
+  line-height: 1.3;
   color: var(--ink-900);
 }
 
@@ -388,7 +425,7 @@ body {
   font-family: var(--yct-display);
   font-weight: 380;
   letter-spacing: -0.02em;
-  line-height: 1.05;
+  line-height: 1.3;
   color: var(--ink-900);
 }
 .muted { color: var(--ink-600); }
